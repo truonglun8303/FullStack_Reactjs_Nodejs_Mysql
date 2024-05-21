@@ -55,7 +55,14 @@ db.connect(function(err) {
         return res.json(data);
     })
  })
-
+//  Lấy data từ Customer 
+app.get('/Customer',(req,res) =>{
+    const sql = "SELECT * FROM Tours";
+    db.query(sql,(err,data) =>{
+        if(err) return res.json(err);
+        return res.json(data);
+    })
+ })
 //  import dữ liệu Tour từ form 
  app.post('/create',upload.single('file'),(req,res) =>{
     const sql = "INSERT INTO Tours(`title`,`image`,`description`,`price`,`startdate`,`enddate`) VALUES(?)";
@@ -72,7 +79,21 @@ db.connect(function(err) {
         return res.json(data);
     })
  })
-
+//  import dữ liệu User từ form 
+app.post('/createuser',(req,res) =>{
+    const sql = "INSERT INTO Customer(`firstname`,`lastname`,`phone`,`email`,`destination`) VALUES(?)";
+    const values = [
+        req.body.firstname,
+        req.body.lastname,
+        req.body.phone,
+        req.body.email,
+        req.body.destination
+    ]
+    db.query(sql,[values],(err,data) =>{
+        if(err) return res.json("err");
+        return res.json(data);
+    })
+ })
 //  Update data Tour 
  app.put('/update/:id',upload.single('file'),(req,res) =>{
     const sql = "UPDATE Tours set `title` = ?, `image` = ?, `description` = ?,  `price` = ?, `startdate` = ?, `enddate` = ? WHERE ID = ?" ;
